@@ -50,24 +50,28 @@ fn one_license_per_line(dependencies: Vec<cargo_license::Dependency>, display_au
         let name = dependency.name.clone();
         let version = dependency.version.clone();
         let license = dependency.get_license().unwrap_or("N/A".to_owned());
-        let source = dependency.source.clone();
+        let repo = dependency.get_repository().unwrap_or("N/A".to_owned());
         if display_authors {
             let authors = dependency.get_authors().unwrap_or(vec![]);
-            println!("{}: {}, \"{}\", {}, {} \"{}\"",
-                     Green.bold().paint(name),
-                     version,
-                     license,
-                     source,
-                     Green.paint("by"),
-                     authors.into_iter().collect::<Vec<_>>().join(", "));
+            println!(
+                "{}: {}, \"{}\", {}, {} \"{}\"",
+                Green.bold().paint(name),
+                version,
+                license,
+                repo,
+                Green.paint("by"),
+                authors.into_iter().collect::<Vec<_>>().join(", ")
+            );
         } else {
-            println!("{}: {}, \"{}\", {}",
-                     Green.bold().paint(name),
-                     version,
-                     license,
-                     source);
+            println!(
+                "{}: {}, \"{}\", {}",
+                Green.bold().paint(name),
+                version,
+                license,
+                repo
+            );
         }
-    };
+    }
 
 }
 

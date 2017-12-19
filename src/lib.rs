@@ -85,9 +85,14 @@ impl Dependency {
 
     pub fn get_license(&self) -> Option<String> {
         match self.get_cargo_package() {
-            Ok(pkg) => {
-                self.normalize(&pkg.manifest().metadata().license)
-            }
+            Ok(pkg) => self.normalize(&pkg.manifest().metadata().license),
+            Err(_) => None,
+        }
+    }
+
+    pub fn get_repository(&self) -> Option<String> {
+        match self.get_cargo_package() {
+            Ok(pkg) => pkg.manifest().metadata().repository.clone(),
             Err(_) => None,
         }
     }
